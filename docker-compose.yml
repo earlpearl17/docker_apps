@@ -6,6 +6,7 @@ services:
       context: ./app_pf
       dockerfile: Dockerfile.prod
     container_name: web-pf
+    restart: always
     command: gunicorn portfolio.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - static_volume1:/home/app1/web/static
@@ -21,6 +22,7 @@ services:
       context: ./app_wc
       dockerfile: Dockerfile.prod
     container_name: web-wc
+    restart: always
     command: gunicorn word_counter.wsgi:application --bind 0.0.0.0:8001
     volumes:
       - static_volume2:/home/app2/web/static
@@ -36,6 +38,7 @@ services:
       context: ./app_ab
       dockerfile: Dockerfile.prod
     container_name: web-ab
+    restart: always
     command: gunicorn mysite.wsgi:application --bind 0.0.0.0:8002
     volumes:
       - static_volume3:/home/app3/web/static
@@ -51,6 +54,7 @@ services:
       context: ./app_ll
       dockerfile: Dockerfile.prod
     container_name: web-ll
+    restart: always
     command: gunicorn learning_log.wsgi:application --bind 0.0.0.0:8003
     volumes:
       - static_volume4:/home/app4/web/static
@@ -66,6 +70,7 @@ services:
       context: ./app_ph
       dockerfile: Dockerfile.prod
     container_name: web-ph
+    restart: always
     command: gunicorn producthunt.wsgi:application --bind 0.0.0.0:8004
     volumes:
       - static_volume5:/home/app5/web/static
@@ -81,6 +86,7 @@ services:
       context: ./app_hw
       dockerfile: Dockerfile.prod
     container_name: web-hw
+    restart: always
     command: gunicorn wsgi:app --bind 0.0.0.0:8005
     volumes:
       - static_volume6:/home/app6/web/static
@@ -94,6 +100,7 @@ services:
       context: ./app_fb
       dockerfile: Dockerfile.prod
     container_name: web-fb
+    restart: always
     command: gunicorn wsgi:app --bind 0.0.0.0:8006
     volumes:
       - static_volume7:/home/app7/web/static
@@ -107,6 +114,7 @@ services:
       context: ./app_ft
       dockerfile: Dockerfile.prod
     container_name: web-ft
+    restart: always
     command: gunicorn wsgi:app --bind 0.0.0.0:8007
     volumes:
       - static_volume8:/home/app8/web/static
@@ -117,6 +125,8 @@ services:
       - db
   db:
     image: postgres:13.0-alpine
+    container_name: my-db
+    restart: always
     environment:
         - POSTGRES_DB=postgres
         - POSTGRES_USER=postgres
@@ -127,6 +137,8 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/create_env.sql
   nginx:
     build: ./nginx
+    container_name: my-nginx
+    restart: always
     volumes:
       - static_volume1:/home/app1/web/static
       - media_volume1:/home/app1/web/media
